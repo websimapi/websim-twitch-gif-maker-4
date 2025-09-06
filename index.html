@@ -1,0 +1,598 @@
+<html>
+<head>
+    <base href="." />
+    <title>Twitch GIF Maker</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Twitch GIF Maker</h1>
+        
+        <!-- Image Editor Section -->
+        <div class="settings-panel" id="imageEditorPanel" style="display: none;">
+            <div class="settings-group">
+                <h3>Image Editor</h3>
+                <div class="editor-tools">
+                    <div class="tool-option selected" data-tool="brush">
+                        <svg class="tool-icon" viewBox="0 0 24 24"><path d="M7.127 22.564l-7.126 1.436 1.438-7.125 5.688 5.689zm-4.274-7.104l5.688 5.689 15.46-15.46-5.689-5.689-15.459 15.46z"/></svg>
+                        Brush
+                    </div>
+                    <div class="tool-option" data-tool="eraser">
+                        <svg class="tool-icon" viewBox="0 0 24 24"><path d="M5.662 23l-5.369-5.365c-.195-.195-.293-.45-.293-.707 0-.256.098-.512.293-.707l14.929-14.928c.195-.194.451-.293.707-.293.255 0 .512.099.707.293l7.071 7.073c.196.195.293.451.293.708 0 .256-.097.511-.293.707l-11.216 11.219h-6.829zm.827-1h5.536l10.866-10.87-6.659-6.661-14.704 14.706 4.961 4.825z"/></svg>
+                        Eraser
+                    </div>
+                    <div class="tool-option" data-tool="select">
+                        <svg class="tool-icon" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                        Select
+                    </div>
+                    <div class="tool-option" data-tool="magic-wand">
+                        <svg class="tool-icon" viewBox="0 0 24 24"><path d="M7.127 22.562l-7.127 1.438 1.438-7.128 5.689 5.69zm1.414-1.414l11.228-11.225-5.69-5.692-11.227 11.227 5.689 5.69zm9.768-21.148l-2.816 2.817 5.691 5.691 2.816-2.819-5.691-5.689z"/></svg>
+                        Magic
+                    </div>
+                    <div class="tool-option" data-tool="fill">
+                        <svg class="tool-icon" viewBox="0 0 24 24"><path d="M13.473 17.962c-2.317 0-4.561-1.224-6.299-3.468-1.713-2.214-2.65-5.010-2.65-7.862 0-1.756.482-3.257 1.404-4.353.899-1.068 2.138-1.658 3.485-1.658 1.417 0 2.714.656 3.639 1.842.928 1.186 1.439 2.842 1.439 4.659 0 2.296-.888 4.286-2.491 5.589.655.386 1.206.466 1.935.466 1.613 0 3.115-.625 4.254-1.766s1.766-2.641 1.766-4.254c0-1.437-.517-2.839-1.462-3.942l-.91-1.065.854-1.115c.943-1.229 2.352-1.881 3.944-1.881.804 0 1.579.183 2.202.518l1.464.786-.784 1.465c-.677 1.256-1.83 2.151-3.247 2.522-.12.411-.271.799-.444 1.159 1.608.119 3.149.788 4.356 1.888 1.409 1.284 2.186 3.002 2.186 4.836 0 4.623-4.044 8.421-9.02 8.421-1.284 0-2.741-.329-4.122-.927-.722.581-1.569.877-2.479.877zm-6.403-16.421c-.76.903-1.146 2.115-1.146 3.601 0 2.533.84 5.024 2.367 7.008 1.417 1.827 3.228 2.835 5.103 2.835.655 0 1.258-.219 1.714-.618l.451-.394.542.259c1.221.583 2.502.89 3.602.89 3.944 0 7.02-2.851 7.02-6.421 0-1.389-.597-2.688-1.681-3.679-.969-.883-2.233-1.37-3.567-1.37-.191 0-.4.035-.648.098-.825-.401-1.251-.941-1.251-1.603 0-.142.024-.286.071-.429l.139-.416-.227-.376c-.222-.368-.333-.752-.333-1.14 0-.264.055-.53.163-.791-1.271.226-2.266.818-2.886 1.634-1.062 1.379-1.552 3.203-1.552 5.586 0 1.951.724 3.631 2.033 4.711l.684.565-.685.564c-.963.794-2.15 1.215-3.432 1.215-1.132 0-2.002-.264-2.788-.845-1.255-.924-1.918-2.493-1.918-4.53 0-3.415 1.958-5.4 3.593-5.4.72 0 1.347.366 1.768 1.031.454.719.703 1.667.703 2.828 0 1.513-.507 2.468-1.546 2.913l-.151.064-.012.165c-.037.488-.582.87-1.307.87-.771 0-1.336-.421-1.336-.992 0-.123-.005-.2-.015-.231-.133.066-.337.223-.337.726 0 .955.599 1.5 1.683 1.5 1.315 0 2.168-.811 2.437-2.329l.037-.206.177-.119c1.386-.935 2.134-2.463 2.134-4.348 0-1.418-.348-2.671-1.004-3.616-.561-.808-1.312-1.252-2.171-1.252-.832 0-1.603.397-2.168 1.167zm17.003 2.181c.341-.295.646-.633.904-1.015-.245-.063-.471-.094-.676-.094-1.059 0-1.913.458-2.504 1.337l.088.103c.612.714.975 1.591 1.062 2.513.374-.806.704-1.935 1.126-2.844z"/></svg>
+                        Fill
+                    </div>
+                    <div class="tool-option" data-tool="text">
+                        <svg class="tool-icon" viewBox="0 0 24 24"><path d="M24 3h-12v-2h12v2zm0 3h-12v2h12v-2zm0 5h-12v2h12v-2zm0 5h-12v2h12v-2zm0 5h-12v2h12v-2zm-14-20h-10v2h10v-2zm0 5h-10v2h10v-2zm0 5h-10v2h10v-2zm0 5h-10v2h10v-2z"/></svg>
+                        Text
+                    </div>
+                </div>
+                
+                <div class="brush-settings">
+                    <label for="brushSize">Brush Size:</label>
+                    <input type="range" id="brushSize" min="1" max="50" value="5">
+                    <span id="brushSizeValue">5px</span>
+                    
+                    <div class="color-picker">
+                        <label>Brush Color:</label>
+                        <input type="color" id="brushColor" value="#ffffff">
+                    </div>
+                    
+                    <div class="color-options">
+                        <div class="color-option selected" style="background-color: #ffffff;" data-color="#ffffff"></div>
+                        <div class="color-option" style="background-color: #ff0000;" data-color="#ff0000"></div>
+                        <div class="color-option" style="background-color: #00ff00;" data-color="#00ff00"></div>
+                        <div class="color-option" style="background-color: #0000ff;" data-color="#0000ff"></div>
+                        <div class="color-option" style="background-color: #ffff00;" data-color="#ffff00"></div>
+                        <div class="color-option" style="background-color: #ff00ff;" data-color="#ff00ff"></div>
+                        <div class="color-option" style="background-color: #00ffff;" data-color="#00ffff"></div>
+                        <div class="color-option" style="background-color: #000000;" data-color="#000000"></div>
+                    </div>
+                </div>
+                
+                <div class="selection-controls" id="selectionControls">
+                    <button id="cropSelection">Crop</button>
+                    <button id="fillSelection">Fill</button>
+                    <button id="deleteSelection">Delete</button>
+                    <button id="makeTransparent">Make Transparent</button>
+                    <button id="cancelSelection">Cancel</button>
+                </div>
+                
+                <div class="editor-controls">
+                    <button id="undoEdit">Undo</button>
+                    <button id="redoEdit">Redo</button>
+                    <button id="saveEdit">Save Changes</button>
+                    <button id="cancelEdit">Cancel</button>
+                </div>
+                
+                <div class="editing-mode">
+                    <canvas id="editorCanvas" width="500" height="500"></canvas>
+                    <canvas id="overlayCanvas" width="500" height="500"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="preview-wrapper">
+            <div class="preview-container">
+                <canvas id="preview" width="112" height="112"></canvas>
+            </div>
+            <div class="live-preview" id="livePreview">
+                <canvas id="previewAnimation" width="112" height="112"></canvas>
+            </div>
+        </div>
+        <div class="controls">
+            <div class="settings-panel">
+                <div class="settings-group">
+                    <h3>Image Settings</h3>
+                    <div class="image-settings">
+                        <div class="setting-item">
+                            <label>Background Color</label>
+                            <div class="color-picker">
+                                <input type="checkbox" id="enableBackground" checked>
+                                <input type="color" id="backgroundColor" value="#000000">
+                                <span id="backgroundColorValue">#000000</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label for="opacity">Opacity (%)</label>
+                            <input type="range" id="opacity" min="0" max="100" value="100">
+                        </div>
+                        <div class="setting-item">
+                            <label for="scale">Scale (%)</label>
+                            <input type="range" id="scale" min="10" max="100" value="100">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h3>Animation Settings</h3>
+                    <div class="setting-item">
+                        <label for="animationSpeed">Animation Speed</label>
+                        <input type="range" id="animationSpeed" min="0.5" max="3" step="0.1" value="1">
+                        <span id="animationSpeedValue">1x</span>
+                    </div>
+                    <div class="setting-item">
+                        <label for="animationIntensity">Animation Intensity</label>
+                        <input type="range" id="animationIntensity" min="1" max="10" value="5">
+                        <span id="animationIntensityValue">5</span>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h3>Special Effects</h3>
+                    <div class="special-effects">
+                        <div class="effect-option" data-effect="rainbow">
+                            <div class="animation-preview rainbow-preview"></div>
+                            Rainbow Effect
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <label for="fileInput">Upload Images (PNG/JPG):</label>
+            <input type="file" id="fileInput" accept="image/*" multiple>
+            <button id="editImage">Edit Image</button>
+            
+            <label>Animation Style:</label>
+            <div class="animation-options">
+                <div class="animation-option selected" data-animation="none">
+                    <div class="animation-preview"></div>
+                    None
+                </div>
+                <div class="animation-option" data-animation="rotate">
+                    <div class="animation-preview rotate-preview"></div>
+                    Rotate
+                </div>
+                <div class="animation-option" data-animation="bounce">
+                    <div class="animation-preview bounce-preview"></div>
+                    Bounce
+                </div>
+                <div class="animation-option" data-animation="fade">
+                    <div class="animation-preview fade-preview"></div>
+                    Fade
+                </div>
+                <div class="animation-option" data-animation="shake">
+                    <div class="animation-preview shake-preview"></div>
+                    Shake
+                </div>
+                <div class="animation-option" data-animation="pulse">
+                    <div class="animation-preview pulse-preview"></div>
+                    Pulse
+                </div>
+                <div class="animation-option" data-animation="flip">
+                    <div class="animation-preview flip-preview"></div>
+                    Flip
+                </div>
+                <div class="animation-option" data-animation="swing">
+                    <div class="animation-preview swing-preview"></div>
+                    Swing
+                </div>
+                <div class="animation-option" data-animation="zoom">
+                    <div class="animation-preview zoom-preview"></div>
+                    Zoom
+                </div>
+                <div class="animation-option" data-animation="spin">
+                    <div class="animation-preview spin-preview"></div>
+                    Spin
+                </div>
+                <div class="animation-option" data-animation="wiggle">
+                    <div class="animation-preview wiggle-preview"></div>
+                    Wiggle
+                </div>
+                <div class="animation-option" data-animation="squeeze">
+                    <div class="animation-preview squeeze-preview"></div>
+                    Squeeze
+                </div>
+                <div class="animation-option" data-animation="slide">
+                    <div class="animation-preview slide-preview"></div>
+                    Slide
+                </div>
+                <div class="animation-option" data-animation="glitch">
+                    <div class="animation-preview glitch-preview"></div>
+                    Glitch
+                </div>
+                <div class="animation-option" data-animation="bounce-around">
+                    <div class="animation-preview bounce-around-preview"></div>
+                    Bounce Around
+                </div>
+                <div class="animation-option" data-animation="float">
+                    <div class="animation-preview float-preview"></div>
+                    Float
+                </div>
+                <div class="animation-option" data-animation="spiral">
+                    <div class="animation-preview spiral-preview"></div>
+                    Spiral
+                </div>
+                <div class="animation-option" data-animation="throb">
+                    <div class="animation-preview throb-preview"></div>
+                    Throb
+                </div>
+                <div class="animation-option" data-animation="heartbeat">
+                    <div class="animation-preview heartbeat-preview"></div>
+                    Heartbeat
+                </div>
+                <div class="animation-option" data-animation="jello">
+                    <div class="animation-preview jello-preview"></div>
+                    Jello
+                </div>
+                <div class="animation-option" data-animation="pendulum">
+                    <div class="animation-preview pendulum-preview"></div>
+                    Pendulum
+                </div>
+                <div class="animation-option" data-animation="blink">
+                    <div class="animation-preview blink-preview"></div>
+                    Blink
+                </div>
+                <div class="animation-option" data-animation="tornado">
+                    <div class="animation-preview tornado-preview"></div>
+                    Tornado
+                </div>
+                <div class="animation-option" data-animation="orbit">
+                    <div class="animation-preview orbit-preview"></div>
+                    Orbit
+                </div>
+                <div class="animation-option" data-animation="diagonal-bounce">
+                    <div class="animation-preview diagonal-bounce-preview"></div>
+                    Diagonal Bounce
+                </div>
+                <div class="animation-option" data-animation="pixelate">
+                    <div class="animation-preview pixelate-preview"></div>
+                    Pixelate
+                </div>
+                <div class="animation-option" data-animation="sway">
+                    <div class="animation-preview sway-preview"></div>
+                    Sway
+                </div>
+                <div class="animation-option" data-animation="ripple">
+                    <div class="animation-preview ripple-preview"></div>
+                    Ripple
+                </div>
+                <div class="animation-option" data-animation="split-shift">
+                    <div class="animation-preview split-shift-preview"></div>
+                    Split Shift
+                </div>
+                <div class="animation-option" data-animation="confetti">
+                    <div class="animation-preview confetti-preview"></div>
+                    Confetti
+                </div>
+                <div class="animation-option" data-animation="wave">
+                    <div class="animation-preview wave-preview"></div>
+                    Wave
+                </div>
+                <div class="animation-option" data-animation="jump-rope">
+                    <div class="animation-preview jump-rope-preview"></div>
+                    Jump Rope
+                </div>
+                <div class="animation-option" data-animation="typewriter">
+                    <div class="animation-preview typewriter-preview"></div>
+                    Typewriter
+                </div>
+                <div class="animation-option" data-animation="bounce-flip">
+                    <div class="animation-preview bounce-flip-preview"></div>
+                    Bounce Flip
+                </div>
+                <div class="animation-option" data-animation="dizzy">
+                    <div class="animation-preview dizzy-preview"></div>
+                    Dizzy
+                </div>
+                <div class="animation-option" data-animation="dance">
+                    <div class="animation-preview dance-preview"></div>
+                    Dance
+                </div>
+                <div class="animation-option" data-animation="elastic">
+                    <div class="animation-preview elastic-preview"></div>
+                    Elastic
+                </div>
+                <div class="animation-option" data-animation="shadow-play">
+                    <div class="animation-preview shadow-play-preview"></div>
+                    Shadow Play
+                </div>
+                <div class="animation-option" data-animation="bounce-rotate">
+                    <div class="animation-preview bounce-rotate-preview"></div>
+                    Bounce Rotate
+                </div>
+                <div class="animation-option" data-animation="party-mode">
+                    <div class="animation-preview party-mode-preview"></div>
+                    Party Mode
+                </div>
+                <div class="animation-option" data-animation="rolling">
+                    <div class="animation-preview rolling-preview"></div>
+                    Rolling
+                </div>
+                <div class="animation-option" data-animation="kaleidoscope">
+                    <div class="animation-preview kaleidoscope-preview"></div>
+                    Kaleidoscope
+                </div>
+                <div class="animation-option" data-animation="wobble">
+                    <div class="animation-preview wobble-preview"></div>
+                    Wobble
+                </div>
+                <div class="animation-option" data-animation="teleport">
+                    <div class="animation-preview teleport-preview"></div>
+                    Teleport
+                </div>
+                <div class="animation-option" data-animation="pinwheel">
+                    <div class="animation-preview pinwheel-preview"></div>
+                    Pinwheel
+                </div>
+                <div class="animation-option" data-animation="bounce-orbit">
+                    <div class="animation-preview bounce-orbit-preview"></div>
+                    Bounce Orbit
+                </div>
+                <div class="animation-option" data-animation="hyperspeed">
+                    <div class="animation-preview hyperspeed-preview"></div>
+                    Hyperspeed
+                </div>
+                <div class="animation-option" data-animation="color-pulse">
+                    <div class="animation-preview color-pulse-preview"></div>
+                    Color Pulse
+                </div>
+                <div class="animation-option" data-animation="pixel-shuffle">
+                    <div class="animation-preview pixel-shuffle-preview"></div>
+                    Pixel Shuffle
+                </div>
+                <div class="animation-option" data-animation="glitch-out">
+                    <div class="animation-preview glitch-out-preview"></div>
+                    Glitch Out
+                </div>
+                <div class="animation-option" data-animation="liquid">
+                    <div class="animation-preview liquid-preview"></div>
+                    Liquid
+                </div>
+                <div class="animation-option" data-animation="warp-drive">
+                    <div class="animation-preview warp-drive-preview"></div>
+                    Warp Drive
+                </div>
+                <div class="animation-option" data-animation="neon-flash">
+                    <div class="animation-preview neon-flash-preview"></div>
+                    Neon Flash
+                </div>
+                <div class="animation-option" data-animation="spin-zoom">
+                    <div class="animation-preview spin-zoom-preview"></div>
+                    Spin Zoom
+                </div>
+                <div class="animation-option" data-animation="bounce-wave">
+                    <div class="animation-preview bounce-wave-preview"></div>
+                    Bounce Wave
+                </div>
+                <div class="animation-option" data-animation="micro-bounce">
+                    <div class="animation-preview micro-bounce-preview"></div>
+                    Micro Bounce
+                </div>
+                <div class="animation-option" data-animation="shatter">
+                    <div class="animation-preview shatter-preview"></div>
+                    Shatter
+                </div>
+                <div class="animation-option" data-animation="clock">
+                    <div class="animation-preview clock-preview"></div>
+                    Clock
+                </div>
+                <div class="animation-option" data-animation="slime">
+                    <div class="animation-preview slime-preview"></div>
+                    Slime
+                </div>
+                <div class="animation-option" data-animation="paper-plane">
+                    <div class="animation-preview paper-plane-preview"></div>
+                    Paper Plane
+                </div>
+                <div class="animation-option" data-animation="bubble-pop">
+                    <div class="animation-preview bubble-pop-preview"></div>
+                    Bubble Pop
+                </div>
+                <div class="animation-option" data-animation="vibrate">
+                    <div class="animation-preview vibrate-preview"></div>
+                    Vibrate
+                </div>
+                <div class="animation-option" data-animation="firework">
+                    <div class="animation-preview firework-preview"></div>
+                    Firework
+                </div>
+                <div class="animation-option" data-animation="magnet">
+                    <div class="animation-preview magnet-preview"></div>
+                    Magnet
+                </div>
+                <div class="animation-option" data-animation="pulse-rings">
+                    <div class="animation-preview pulse-rings-preview"></div>
+                    Pulse Rings
+                </div>
+                <div class="animation-option" data-animation="drip">
+                    <div class="animation-preview drip-preview"></div>
+                    Drip
+                </div>
+                <div class="animation-option" data-animation="ricochet">
+                    <div class="animation-preview ricochet-preview"></div>
+                    Ricochet
+                </div>
+                <div class="animation-option" data-animation="flip-3d">
+                    <div class="animation-preview flip-3d-preview"></div>
+                    Flip 3D
+                </div>
+                <div class="animation-option" data-animation="thunder">
+                    <div class="animation-preview thunder-preview"></div>
+                    Thunder
+                </div>
+                <div class="animation-option" data-animation="tv-static">
+                    <div class="animation-preview tv-static-preview"></div>
+                    TV Static
+                </div>
+                <div class="animation-option" data-animation="flip-coin">
+                    <div class="animation-preview flip-coin-preview"></div>
+                    Flip Coin
+                </div>
+                <div class="animation-option" data-animation="matrix">
+                    <div class="animation-preview matrix-preview"></div>
+                    Matrix
+                </div>
+                <div class="animation-option" data-animation="meteor">
+                    <div class="animation-preview meteor-preview"></div>
+                    Meteor
+                </div>
+                <div class="animation-option" data-animation="pendulum-wave">
+                    <div class="animation-preview pendulum-wave-preview"></div>
+                    Pendulum Wave
+                </div>
+                <div class="animation-option" data-animation="tumbleweed">
+                    <div class="animation-preview tumbleweed-preview"></div>
+                    Tumbleweed
+                </div>
+                <div class="animation-option" data-animation="gentle-shake">
+                    <div class="animation-preview gentle-shake-preview"></div>
+                    Gentle Shake
+                </div>
+                <div class="animation-option" data-animation="tiny-jump">
+                    <div class="animation-preview tiny-jump-preview"></div>
+                    Tiny Jump
+                </div>
+                <div class="animation-option" data-animation="subtle-pulse">
+                    <div class="animation-preview subtle-pulse-preview"></div>
+                    Subtle Pulse
+                </div>
+                <div class="animation-option" data-animation="soft-wobble">
+                    <div class="animation-preview soft-wobble-preview"></div>
+                    Soft Wobble
+                </div>
+                <div class="animation-option" data-animation="micro-spin">
+                    <div class="animation-preview micro-spin-preview"></div>
+                    Micro Spin
+                </div>
+                <div class="animation-option" data-animation="mini-orbit">
+                    <div class="animation-preview mini-orbit-preview"></div>
+                    Mini Orbit
+                </div>
+                <div class="animation-option" data-animation="light-flicker">
+                    <div class="animation-preview light-flicker-preview"></div>
+                    Light Flicker
+                </div>
+                <div class="animation-option" data-animation="smooth-slide">
+                    <div class="animation-preview smooth-slide-preview"></div>
+                    Smooth Slide
+                </div>
+                <div class="animation-option" data-animation="tiny-twist">
+                    <div class="animation-preview tiny-twist-preview"></div>
+                    Tiny Twist
+                </div>
+                <div class="animation-option" data-animation="quick-pulse">
+                    <div class="animation-preview quick-pulse-preview"></div>
+                    Quick Pulse
+                </div>
+                <div class="animation-option" data-animation="mini-rotate">
+                    <div class="animation-preview mini-rotate-preview"></div>
+                    Mini Rotate
+                </div>
+                <div class="animation-option" data-animation="soft-breathe">
+                    <div class="animation-preview soft-breathe-preview"></div>
+                    Soft Breathe
+                </div>
+                <div class="animation-option" data-animation="nano-bounce">
+                    <div class="animation-preview nano-bounce-preview"></div>
+                    Nano Bounce
+                </div>
+                <div class="animation-option" data-animation="subtle-wave">
+                    <div class="animation-preview subtle-wave-preview"></div>
+                    Subtle Wave
+                </div>
+                <div class="animation-option" data-animation="gentle-rock">
+                    <div class="animation-preview gentle-rock-preview"></div>
+                    Gentle Rock
+                </div>
+                <div class="animation-option" data-animation="tiny-bounce">
+                    <div class="animation-preview tiny-bounce-preview"></div>
+                    Tiny Bounce
+                </div>
+                <div class="animation-option" data-animation="micro-waggle">
+                    <div class="animation-preview micro-waggle-preview"></div>
+                    Micro Waggle
+                </div>
+                <div class="animation-option" data-animation="soft-vibrate">
+                    <div class="animation-preview soft-vibrate-preview"></div>
+                    Soft Vibrate
+                </div>
+                <div class="animation-option" data-animation="micro-float">
+                    <div class="animation-preview micro-float-preview"></div>
+                    Micro Float
+                </div>
+                <div class="animation-option" data-animation="subtle-throb">
+                    <div class="animation-preview subtle-throb-preview"></div>
+                    Subtle Throb
+                </div>
+                <div class="animation-option" data-animation="diagonal-shake">
+                    <div class="animation-preview diagonal-shake-preview"></div>
+                    Diagonal Shake
+                </div>
+                <div class="animation-option" data-animation="diagonal-jitter">
+                    <div class="animation-preview diagonal-jitter-preview"></div>
+                    Diagonal Jitter
+                </div>
+                <div class="animation-option" data-animation="diagonal-pulse-shake">
+                    <div class="animation-preview diagonal-pulse-shake-preview"></div>
+                    Diagonal Pulse Shake
+                </div>
+                <div class="animation-option" data-animation="diagonal-zigzag">
+                    <div class="animation-preview diagonal-zigzag-preview"></div>
+                    Diagonal Zigzag
+                </div>
+                <div class="animation-option" data-animation="diagonal-wave-shake">
+                    <div class="animation-preview diagonal-wave-shake-preview"></div>
+                    Diagonal Wave Shake
+                </div>
+            </div>
+            
+            <label for="fps">FPS:</label>
+            <input type="range" id="fps" min="1" max="60" value="30">
+            <span id="fpsValue">30 FPS</span>
+            
+            <label for="quality">Quality (1-10):</label>
+            <input type="range" id="quality" min="1" max="10" value="7">
+            <span id="qualityValue">7</span>
+
+            <label for="duration">Duration (seconds):</label>
+            <input type="range" id="duration" min="1" max="10" value="3">
+            <span id="durationValue">3s</span>
+            
+            <button id="generateGif">Generate GIF</button>
+            <button id="clearCanvas">Clear</button>
+        </div>
+        
+        <div class="settings-panel">
+            <div class="settings-group">
+                <h3>AI Image Generation</h3>
+                <div class="ai-generation-container">
+                    <div class="setting-item">
+                        <label for="imagePrompt">Image Description:</label>
+                        <textarea id="imagePrompt" placeholder="Describe the image you want to generate..."></textarea>
+                    </div>
+                    <div class="setting-item">
+                        <label for="aspectRatio">Aspect Ratio:</label>
+                        <select id="aspectRatio">
+                            <option value="1:1">1:1 (Square)</option>
+                            <option value="16:9">16:9</option>
+                            <option value="3:2">3:2</option>
+                            <option value="4:3">4:3</option>
+                        </select>
+                    </div>
+                    <div class="advanced-mode">
+                        <input type="checkbox" id="advancedMode">
+                        <label for="advancedMode">Advanced Mode (Let AI enhance your prompt)</label>
+                    </div>
+                    <button id="generateImage">Generate Image</button>
+                    <div id="generationStatus" class="generation-status"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="app.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
